@@ -8,30 +8,35 @@ namespace Group8_Enterprise_FinalProject.Services
 {
     public class TournamentManagerService : ITournamentManagerService
     {
-        private const string fromAddress = "etourneypro@gmail.com";
-        private const string appPassword = "pesl opgp dbcg tsdl";
+        private readonly IConfiguration _configuration;
 
         private readonly IBackgroundJobClient _backgroundJobClient;
 
         // Inject IBackgroundJobClient via the constructor.
-        public TournamentManagerService(IBackgroundJobClient backgroundJobClient)
+        public TournamentManagerService(IBackgroundJobClient backgroundJobClient, IConfiguration configuration)
         {
             _backgroundJobClient = backgroundJobClient;
+            _configuration = configuration;
         }
 
         public void SendPlayerEmail(string toAddress, string subject, string body)
         {
-            var smtpClient = new SmtpClient("smtp.gmail.com")
+            var sender = _configuration["Smtp:FromAddress"];
+            var password = _configuration["Smtp:AppPassword"];
+            if (string.IsNullOrWhiteSpace(sender) || string.IsNullOrWhiteSpace(password))
+                throw new InvalidOperationException("SMTP credentials are not configured. See SECURITY_SETUP.md.");
+
+            using var smtpClient = new SmtpClient(_configuration["Smtp:Host"] ?? "smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential(fromAddress, appPassword),
+                Credentials = new NetworkCredential(sender, password),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
                 EnableSsl = true,
             };
-            var mailMessage = new MailMessage()
+            using var mailMessage = new MailMessage()
             {
-                From = new MailAddress(fromAddress),
+                From = new MailAddress(sender),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true
