@@ -116,16 +116,19 @@ namespace Group8_Enterprise_FinalProject.Entities
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static async Task CreateAdminUser(IServiceProvider serviceProvider)
+        public static async Task CreateAdminUser(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             UserManager<User> userManager =
                 serviceProvider.GetRequiredService<UserManager<User>>();
             RoleManager<IdentityRole> roleManager = serviceProvider
                 .GetRequiredService<RoleManager<IdentityRole>>();
 
-            string username = "DefaultOrganizer";
-            string password = "Cheeseburger1234#";
-            string roleName = "Organizer";
+            string? username = configuration["SeedOrganizer:Username"];
+            string? password = configuration["SeedOrganizer:Password"];
+            const string roleName = "Organizer";
+            // Only provision a development account when explicitly configured.
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                return;
 
             // if role doesn't exist, create it
             if (await roleManager.FindByNameAsync(roleName) == null)
