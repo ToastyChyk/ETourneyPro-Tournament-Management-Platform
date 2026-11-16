@@ -81,7 +81,7 @@ The repository's SQL Server connection strings default to local instances named 
    cd Group8_Enterprise_FinalProject/Group8_Enterprise_FinalProject
    ```
 
-2. Configure the SQL Server connection strings and optional development credentials. Follow **[SECURITY_SETUP.md](../SECURITY_SETUP.md)** for the exact user-secrets commands. Do not reuse the previously exposed credentials.
+2. Configure the SQL Server connection strings and optional development credentials. Follow **[SECURITY_SETUP.md](SECURITY_SETUP.md)** for the exact user-secrets commands. Do not reuse the previously exposed credentials.
 
 3. Restore project dependencies and apply the existing EF Core migrations to your configured main database:
 
@@ -101,7 +101,7 @@ The repository's SQL Server connection strings default to local instances named 
 
 5. Open **https://localhost:5001/Tournaments** in a browser.
 
-   The development organizer account is **not automatically provisioned with a shared password**. To create one on startup in Development, supply `SeedOrganizer:Username` and `SeedOrganizer:Password` as explained in [SECURITY_SETUP.md](../SECURITY_SETUP.md). The server does not create a default organizer account in non-development environments.
+   The development organizer account is **not automatically provisioned with a shared password**. To create one on startup in Development, supply `SeedOrganizer:Username` and `SeedOrganizer:Password` as explained in [SECURITY_SETUP.md](SECURITY_SETUP.md). The server does not create a default organizer account in non-development environments.
 
 ### Python API client
 
@@ -112,7 +112,7 @@ python -m pip install requests
 python Group8_Enterprise_FinalProject/PythonClient/tournament_api_client.py
 ```
 
-The Python client defaults to `https://localhost:5001/tournaments-api`; override this with `ETOURNEY_API_URL` as necessary. It validates HTTPS certificates, so a locally issued development certificate may need to be trusted or configured through `REQUESTS_CA_BUNDLE`. Details: [SECURITY_SETUP.md](../SECURITY_SETUP.md).
+The Python client defaults to `https://localhost:5001/tournaments-api`; override this with `ETOURNEY_API_URL` as necessary. It validates HTTPS certificates, so a locally issued development certificate may need to be trusted or configured through `REQUESTS_CA_BUNDLE`. Details: [SECURITY_SETUP.md](SECURITY_SETUP.md).
 
 ## Source layout
 
@@ -141,7 +141,7 @@ SECURITY_SETUP.md       Secret management and rotation guidance
 - Docker configuration is present, but container startup with SQL Server has not been verified.
 - The project includes migration files and sample development records; do not treat the sample data as a production dataset.
 - Screenshots and an automated build/test workflow have not yet been added.
-- The repository previously contained hardcoded credentials. They have been removed from active source, but may remain in Git history. See [SECURITY_SETUP.md](../SECURITY_SETUP.md) for required credential rotation.
+- The repository previously contained hardcoded credentials. They have been removed from active source, but may remain in Git history. See [SECURITY_SETUP.md](SECURITY_SETUP.md) for required credential rotation.
 
 ## Team and project scope
 
