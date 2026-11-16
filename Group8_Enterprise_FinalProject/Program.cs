@@ -84,11 +84,11 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 
-// Calling static method to create Admin (Organizer) user
-var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-using (var scope = scopeFactory.CreateScope())
+// Explicit, development-only organizer provisioning; never seed a fixed public password.
+if (app.Environment.IsDevelopment())
 {
-    await TournamentDbContext.CreateAdminUser(scope.ServiceProvider);
+    using var scope = app.Services.CreateScope();
+    await TournamentDbContext.CreateAdminUser(scope.ServiceProvider, app.Configuration);
 }
 
 app.Run();

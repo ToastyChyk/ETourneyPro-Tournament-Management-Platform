@@ -1,13 +1,11 @@
 import requests
 import random
 import json
-import urllib3
-
-# Disable warnings for unverified HTTPS requests.
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+import os
 
 # Base URL for the tournaments API home route.
-tournaments_api_url = 'https://localhost:5001/tournaments-api'
+tournaments_api_url = os.environ.get('ETOURNEY_API_URL', 'https://localhost:5001/tournaments-api')
+# Set REQUESTS_CA_BUNDLE to the trusted local development certificate chain if needed.
 
 def get_api_info():
     """
@@ -15,7 +13,7 @@ def get_api_info():
     from the tournaments API home route.
     """
     try:
-        resp = requests.get(tournaments_api_url, verify=False)
+        resp = requests.get(tournaments_api_url)
         resp.raise_for_status()
         result = resp.json()
         # The API home returns a set of links. We expect at least an "all-tournaments" link.
@@ -38,7 +36,7 @@ def get_all_tournaments(tournaments_url):
     Retrieves a list of all tournaments.
     """
     try:
-        resp = requests.get(tournaments_url, verify=False)
+        resp = requests.get(tournaments_url)
         if resp.status_code == 200:
             data = resp.json()
             tournaments = data.get('tournaments', [])
@@ -68,7 +66,7 @@ def get_games_for_tournament(tournament_id):
     # The API endpoint is of the form /tournaments-api/tournaments/{tournamentId}/games
     games_url = f"{tournaments_api_url}/tournaments/{tournament_id}/games"
     try:
-        resp = requests.get(games_url, verify=False)
+        resp = requests.get(games_url)
         if resp.status_code == 200:
             data = resp.json()
             games = data.get('games', [])
@@ -99,7 +97,7 @@ def register_for_tournament(tournament_id, name, email):
     payload = {"name": name, "email": email}
     headers = {"Content-Type": "application/json"}
     try:
-        resp = requests.post(reg_url, headers=headers, json=payload, verify=False)
+        resp = requests.post(reg_url, headers=headers, json=payload)
         if resp.status_code == 201:
             result = {
                 'success': True,
@@ -124,7 +122,7 @@ def get_game_details(game_id):
     """
     url = f"{tournaments_api_url}/games/{game_id}"
     try:
-        resp = requests.get(url, verify=False)
+        resp = requests.get(url)
         if resp.status_code == 200:
             result = {
                 'success': True,
