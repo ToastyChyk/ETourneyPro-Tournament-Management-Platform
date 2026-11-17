@@ -8,6 +8,22 @@ eTourney Pro is an ASP.NET Core MVC application for organizing video-game tourna
 
 > **Project status:** Coursework portfolio project. The source implements the workflows described below, but this README is based on source inspection rather than a verified end-to-end deployment. A SQL Server instance and environment-specific configuration are required. Some features, particularly registration email and reminders, require additional setup and testing.
 
+## Application screenshots
+
+These screenshots show the application running locally with seeded demonstration data. They illustrate the current ASP.NET Core MVC interface rather than a hosted production deployment.
+
+### Tournament listing
+
+![eTourney Pro tournament listing with organizer actions](docs/screenshots/tournament-list.png)
+
+### Tournament management
+
+![Tournament summary and scheduled games with management links](docs/screenshots/tournament-management.png)
+
+### Game management
+
+![Game details showing two teams, player lists and match result](docs/screenshots/game-management.png)
+
 ## Features
 
 - **Tournament management:** browse tournaments; organizer-only creation, editing and deletion; configure game title, team size, date/time and number of games.
